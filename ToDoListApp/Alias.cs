@@ -1,29 +1,19 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel.Design;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace ToDoListApp
 {
     public class Alias
     {
-        //public static string help = "-help";
-        public static string add = "-add";
-        public static string delete = "-delete";
-        public static string done = "-done";
-        private static string uppdate = "-uppdate";
-        private static string vievCurrent = "-vcurent";
-        private static string vievPlanned = "-vplaned";
-        private static string vievCompleted = "-vcompleted";
         public static string help { get; private set; } = "-help";
-
-        public void setHelp(string alias)
-        {
-           
-        }
-
-
+        public static string add { get; private set; } = "-add";
+        public static string delete { get; private set; } = "-delete";
+        public static string done { get; private set; } = "-done";
+        public static string uppdate { get; private set; } = "-uppdate";
+        public static string vievCurrent { get; private set; } = "-vcurrent";
+        public static string vievPlanned { get; private set; } = "-vplanned";
+        public static string vievCompleted { get; private set; } = "-vcompleted";
+        public static string all { get; private set; } = "-all";
     }
 }

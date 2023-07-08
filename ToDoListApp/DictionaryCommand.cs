@@ -9,18 +9,22 @@ namespace ToDoListApp
 {
     class DictionaryCommand
     {
+        public string SetCommand(string setCommand)
+        {
+            return command[setCommand];
+        }
+
         private static string help = Alias.help;
-        private static string add = "-add";
-        private static string delete = "-delete";
-        private static string done = "-done";
-        private static string uppdate = "-uppdate";
-        private static string vievCurrent = "-vcurent";
-        private static string vievPlanned = "-vplaned";
-        private static string vievCompleted = "-vcompleted";
+        private static string add = Alias.add;
+        private static string delete = Alias.delete;
+        private static string done = Alias.done;
+        private static string uppdate = Alias.uppdate;
+        private static string vievCurrent = Alias.vievCurrent;
+        private static string vievPlanned = Alias.vievPlanned;
+        private static string vievCompleted = Alias.vievCompleted;
+        private static string all = Alias.all;            
 
-        
-
-        public Dictionary<string, string> command = new Dictionary<string, string>()
+        private Dictionary<string, string> command = new Dictionary<string, string>()
         {
             {help, "-help"},
             {add, "-add"},
@@ -29,7 +33,8 @@ namespace ToDoListApp
             {uppdate, "-uppdate"},
             {vievCurrent, "-vcurrent"},
             {vievPlanned,"-vplanned"},
-            {vievCompleted,"-vcompleted"}
+            {vievCompleted,"-vcompleted"},
+            {all, "-all" }                      
         };
         
 

@@ -23,7 +23,10 @@ namespace ToDoListApp
         }
         public string[] action() // сплит действия
         {
-            _action = _comadnAndAction[1].Split("--", 3);
+            if (_comadnAndAction.Length > 1)  
+            {
+                _action = _comadnAndAction[1].Split("--", 4);
+            }
             return _action;
         }
     }
