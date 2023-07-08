@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Text.Json;
-using System.Threading.Tasks;
+﻿using System.Text.Json;
 
 namespace ToDoListApp
 {
@@ -64,7 +59,7 @@ namespace ToDoListApp
         }
         private void writeTask(int i)
         {
-           Console.WriteLine(todoListWrite[i].Id + " " + todoListWrite[i].Task + " " + todoListWrite[i].TaskStatus + " " + todoListWrite[i].Datatime.Date.ToShortDateString());
+           Console.WriteLine(todoListWrite[i].Id + " " + todoListWrite[i].Task + " " + todoListWrite[i].TaskStatus + " " + todoListWrite[i].Datetime.Date.ToShortDateString());
         }
 
 
@@ -133,7 +128,7 @@ namespace ToDoListApp
         }
         public void vcurrent()
         {
-            reader();
+            reader(); 
 
             for (int i = 0; i < todoListWrite.Count; i++)
             {

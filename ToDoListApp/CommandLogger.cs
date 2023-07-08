@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Threading.Tasks;
-using System.IO;
-using System.Data;
-using System.Diagnostics.SymbolStore;
-using System.Net.Http.Headers;
-
+﻿
 namespace ToDoListApp
 {
     public class CommandLogger
@@ -56,7 +48,7 @@ namespace ToDoListApp
             Console.WriteLine();
             Console.WriteLine($"Write {Alias.add} 'your task'--'DataTime' to add task;");
             Console.WriteLine($"Write {Alias.delete} 'id task' to delete your task;");
-            Console.WriteLine($"Write {Alias.done} 'true or false' to change task status;");
+            Console.WriteLine($"Write {Alias.done} 'id task'--'true or false' to change task status;");
             Console.WriteLine($"Write {Alias.uppdate} 'id task'--'your task'--'true or false'--'DateTime';");
             Console.WriteLine($"Write {Alias.vievCurrent} to view your current task;");
             Console.WriteLine($"Write {Alias.vievPlanned} to view your planned task;");
