@@ -137,7 +137,7 @@ namespace ToDoListApp
 
             for (int i = 0; i < todoListWrite.Count; i++)
             {
-                if (todoListWrite[i].Datatime == DateTime.Now.Date)
+                if (todoListWrite[i].Datetime == DateTime.Now.Date)
                 {
                     writeTask(i);
                 }
@@ -149,25 +149,25 @@ namespace ToDoListApp
 
             for (int i = 0; i < todoListWrite.Count; i++)
             {
-                if (todoListWrite[i].Datatime > DateTime.Now.Date)
+                if (todoListWrite[i].Datetime > DateTime.Now.Date)
                 {
                     writeTask(i);
                 }
             }
         }
-        //public void vcompleted()
-        //{
-        //    reader();
-
-        //    for (int i = 0; i < todoListWrite.Count; i++)
-        //    {
-        //        if (todoListWrite[i].TaskStatus)
-        //        {
-        //            writeTask(i);
-        //        }
-        //    }
-        //}
         public void vcompleted()
+        {
+            reader();
+
+            for (int i = 0; i < todoListWrite.Count; i++)
+            {
+                if (todoListWrite[i].TaskStatus)
+                {
+                    writeTask(i);
+                }
+            }
+        }
+        public void all()
         {
             reader();
             for (int i = 0; i < todoListWrite.Count; i++)

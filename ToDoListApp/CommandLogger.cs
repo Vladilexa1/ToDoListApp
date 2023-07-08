@@ -31,7 +31,6 @@ namespace ToDoListApp
         private void todoInitialization()
         {
             todo = new ToDoModel(Id, Task, TaskStatus, dateTime);
-
         }
         private void parseId(string id)
         {
@@ -49,9 +48,6 @@ namespace ToDoListApp
         {
             this.dateTime = DateTime.Parse(dateTime);
         }
-    
-
-
 
         private void help()
         {
@@ -86,7 +82,8 @@ namespace ToDoListApp
         }
         private void done()
         {
-            parseTStatus(_action[0]);
+            parseId(_action[0]);
+            parseTStatus(_action[1]);
             todoInitialization();
             var db = new Db(todo);
             db.done(Id, TaskStatus);
@@ -120,7 +117,7 @@ namespace ToDoListApp
         private void all()
         {
             var db = new Db();
-            db.vcompleted();
+            db.all();
         }
 
         private void logger()
