@@ -47,7 +47,7 @@ namespace ToDoListApp
             }
             else
             {
-                File.Create(FILENAME);
+                File.Create(FILENAME).Close();
             }
         }
 
