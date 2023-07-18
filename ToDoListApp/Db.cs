@@ -13,11 +13,13 @@ namespace ToDoListApp
        
         public Db() // конструктор для присвоенияы следующего ID
         {
+            existsFile();
             nextId();  
         }
         public Db(ToDoModel todoModel)
         {
             this.toDoModel = todoModel;
+            existsFile();
             setId();
         }
         private void setId()
@@ -32,10 +34,21 @@ namespace ToDoListApp
             writeSerialize();
         }
 
-        public void nextId()
+        private void nextId()
         {
             reader();
             nextID = todoListWrite.Count + 1;
+        }
+        private void existsFile()
+        {
+            if (File.Exists(FILENAME))
+            {
+                return;
+            }
+            else
+            {
+                File.Create(FILENAME);
+            }
         }
 
 
