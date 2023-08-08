@@ -9,6 +9,8 @@ namespace ToDoListApp
     {
         static void Main(string[] args)
         {
+            Console.WriteLine("Hello, it's my ToDoApp, write '-help', to see command");
+
             DictionaryCommand DCommand = new DictionaryCommand(); // slovar comand
             
             
