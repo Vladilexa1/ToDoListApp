@@ -9,7 +9,7 @@ namespace ToDoListApp
 {
     class DictionaryCommand
     {
-        public string SetCommand(string setCommand)
+        public string GetCommand(string setCommand)
         {
             return command[setCommand];
         }
@@ -36,7 +36,5 @@ namespace ToDoListApp
             {vievCompleted,"-vcompleted"},
             {all, "-all" }                      
         };
-        
-
     }
 }

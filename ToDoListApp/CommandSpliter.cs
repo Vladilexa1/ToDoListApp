@@ -1,27 +1,36 @@
 ﻿
+using System;
+
 namespace ToDoListApp
 {
     public class CommandSpliter
     {
         private string _input;
-        private string[] _comadnAndAction;
-        private string[] _action;
         public CommandSpliter(string input)
         {
             _input = input;
         }
-        public string command() // сплитит строку на команду и действие
+        private string[] splitCommandAndAction()
         {
-            _comadnAndAction = _input.Split(" ", 2); // 2 kol-vo strok split
-            return _comadnAndAction[0]; 
+            string[] comandAndAction = _input.Split(" ", 2);
+            return comandAndAction;
         }
-        public string[] action() // сплит действия
+        public string GetSplitCommand()
         {
-            if (_comadnAndAction.Length > 1)  
+            string comand = splitCommandAndAction()[0];
+            return comand;
+        }
+        public string[] GetArrayAction() 
+        {
+            if (splitCommandAndAction().Length > 1)  
             {
-                _action = _comadnAndAction[1].Split("--", 4);
+                string[] action = splitCommandAndAction()[1].Split("--");
+                return action;
             }
-            return _action;
+            else
+            {
+                return null;
+            }
         }
     }
 }

@@ -3,45 +3,39 @@ namespace ToDoListApp
 {
     public class CommandLogger
     {
-        private string _command;
-        private ToDoModel todo;
-        private int Id;
-        private string Task;
-        private bool TaskStatus;
-        private DateTime dateTime;
         private string[] _action;
-
+        private Db db = new Db();
+        List<ToDoModel> todo = new List<ToDoModel>();
+        
         public CommandLogger(string command, string[] action)
         {
-            _command = command;
             _action = action;
-            
-            var db = new Db();
-            Id = db.nextID;
-            logger();
+           
+            Logger(command);
         }
-        private void todoInitialization()
+        public ToDoModel GetModel(int id, string task, bool taskStatus, DateTime dateTime)
         {
-            todo = new ToDoModel(Id, Task, TaskStatus, dateTime);
+            ToDoModel toDoModel = new ToDoModel(id, task, taskStatus, dateTime);
+            return toDoModel;
         }
-        private void parseId(string id)
+        private int parseId(string id)
         {
-            Id = int.Parse(id);
+            return int.Parse(id);
         }
-        private void parseTask(string task)
+        private string parseTask(string task)
         {
-            this.Task = task;
+            return task;
         }
-        private void parseTStatus(string taskStatus)
+        private bool ParseTaskStatus(string taskStatus)
         {
-            this.TaskStatus = bool.Parse(taskStatus);
+            return bool.Parse(taskStatus);
         }
-        private void parseDateTime(string dateTime)
+        private DateTime parseDateTime(string dateTime)
         {
-            this.dateTime = DateTime.Parse(dateTime);
+            return DateTime.Parse(dateTime);
         }
 
-        private void help()
+        private void PrintHelp()
         {
             Console.WriteLine();
             Console.WriteLine("Hello i'ts help for my ToDo;");
@@ -55,95 +49,49 @@ namespace ToDoListApp
             Console.WriteLine($"Write {Alias.vievCompleted} to view your completed task;");
 
         }
-        private void add()
+        private ToDoModel ConverteNewTaskToToDoModel(string[] action)
         {
-            parseTask(_action[0]);
-            parseDateTime(_action[1]);
-            todoInitialization();
-
-            var db = new Db(todo);
-            db.add();
+            return new ToDoModel(db.GetNextId(), parseTask(action[0]), false, parseDateTime(action[1]));
         }
-        private void delete()
+       
+        private int GetIdToDeleteTask(string[] action)
         {
-            parseId(_action[0]);
-            todoInitialization();
-
-            var db = new Db(todo);
-            db.delete(Id);
+           return parseId(action[0]);
         }
-        private void done()
+        private void Logger(string command)
         {
-            parseId(_action[0]);
-            parseTStatus(_action[1]);
-            todoInitialization();
-            var db = new Db(todo);
-            db.done(Id, TaskStatus);
-        }
-        private void uppdate()
-        {
-            parseId(_action[0]);
-            parseTask(_action[1]);
-            parseTStatus(_action[2]);
-            parseDateTime(_action[3]);
-            todoInitialization();
-
-            var db = new Db(todo);
-            db.uppdate(Id, Task, TaskStatus, dateTime);
-        }
-        private void vcurrent()
-        {
-            var db = new Db();
-            db.vcurrent();
-        }
-        private void vplanned()
-        {
-            var db = new Db();
-            db.vplanned();
-        }
-        private void vcompleted()
-        {
-            var db = new Db();
-            db.vcompleted();
-        }
-        private void all()
-        {
-            var db = new Db();
-            db.all();
-        }
-
-        private void logger()
-        {
-            switch (_command)
+            todo = db.DeserializeTaskInDb();
+            switch (command)
             {
                 case "-help":
-                    help();
+                    PrintHelp();
                     break;
                 case "-add":
-                    add();
+                    db.AddTaskToDb(ConverteNewTaskToToDoModel(_action));
                     break;
                 case "-delete":
-                    delete();
+                    db.DeleteTaskInDb(GetIdToDeleteTask(_action));
                     break;
                 case "-done":
-                    done();
+                    db.EditingTaskStatus(parseId(_action[0]), ParseTaskStatus(_action[1]));
                     break;
                 case "-uppdate":
-                    uppdate();
+                    db.UppdateTaskInDb(parseId(_action[0]), parseTask(_action[1]), ParseTaskStatus(_action[2]), parseDateTime(_action[3]));
                     break;
                 case "-vcurrent":
-                    vcurrent();
+                    PrintTask.PrintCurrentTask(todo);
                     break;
                 case "-vplanned":
-                    vplanned();
+                    PrintTask.PrintPlannedTask(todo);
                     break;
                 case "-vcompleted":
-                    vcompleted();
+                    PrintTask.PrintCompletedTask(todo);
                     break;
                 case "-all":
-                    all();
+                    PrintTask.PrintAllTask(todo);
                     break;
                 default:
+                    Console.WriteLine("Command not found, write '-help', to see command");
                     break;
             }
         }

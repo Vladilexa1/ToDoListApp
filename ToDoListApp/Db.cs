@@ -6,183 +6,106 @@ namespace ToDoListApp
     {
         const string FILENAME = "DbJSON.json";
         private string json;
-        private List<ToDoModel> todoListWrite = new List<ToDoModel>();
-        private ToDoModel toDoModel;
 
-        public int nextID { get; private set; }
-       
-        public Db() // конструктор для присвоенияы следующего ID
+        public Db()
         {
-            existsFile();
-            nextId();  
+            CreateDbJSONFile();
         }
-        public Db(ToDoModel todoModel)
+        
+        private void CreateDbJSONFile()
         {
-            this.toDoModel = todoModel;
-            existsFile();
-            setId();
-        }
-        private void setId()
-        {
-            reader();
-            int ID = 1;
-            foreach (var item in todoListWrite)
-            {
-                item.Id = ID;
-                ID++;
-            }
-            writeSerialize();
-        }
-
-        private void nextId()
-        {
-            reader();
-            nextID = todoListWrite.Count + 1;
-        }
-        private void existsFile()
-        {
-            if (File.Exists(FILENAME))
-            {
-                return;
-            }
-            else
+            if (!File.Exists(FILENAME))
             {
                 File.Create(FILENAME).Close();
             }
         }
-
-
-
-
-
-
-        private void writeSerialize()
+        private void WriteSerializeTaskToDb(List<ToDoModel> toDos)
         {
-            json = JsonSerializer.Serialize(todoListWrite);
+            json = JsonSerializer.Serialize(toDos);
 
             File.WriteAllText(FILENAME, json);
         }
-        private void reader()
+        public List<ToDoModel> DeserializeTaskInDb()
         {
             var reader = File.ReadAllText(FILENAME);
             if (reader != "")
             {
-                todoListWrite = JsonSerializer.Deserialize<List<ToDoModel>>(reader);
+                return JsonSerializer.Deserialize<List<ToDoModel>>(reader);
             }
+            return null;
         }
-        private void writeTask(int i)
+        
+        public int GetNextId()
         {
-           Console.WriteLine(todoListWrite[i].Id + " " + todoListWrite[i].Task + " " + todoListWrite[i].TaskStatus + " " + todoListWrite[i].Datetime.Date.ToShortDateString());
+            List<ToDoModel> toDos = DeserializeTaskInDb();
+            return toDos.Count + 1;
         }
-
-
-
-
-
-        public void add() // читаем данные с json, если он пустой, записываем текущие значения
+       
+        public void AddTaskToDb(ToDoModel toDoModel) 
         {
-            reader();
-
-            todoListWrite.Add(toDoModel);
-
-            writeSerialize();
-            Console.WriteLine("Your task add");
-        }
-
-        public void delete(int id)  // читаем, ищем наш id, удаляем со списка, заново сериализируем
-        {
-            reader();
-
-            for (int i = 0; i < todoListWrite.Count; i++)
+            try
             {
-                if (todoListWrite[i].Id == id)
+                List<ToDoModel> toDos = DeserializeTaskInDb();
+                toDos.Add(toDoModel);
+                WriteSerializeTaskToDb(toDos);
+                Console.WriteLine("Your task add");
+            }
+            catch (Exception)
+            {
+                Console.WriteLine("Exeption add task");
+            }
+            
+        }
+        public void DeleteTaskInDb(int id)  
+        {
+           List<ToDoModel> toDos = DeserializeTaskInDb();
+
+            for (int i = 0; i < toDos.Count; i++)
+            {
+                if (toDos[i].Id == id)
                 {
-                    todoListWrite.Remove(todoListWrite[i]);
-                    writeSerialize();
-                   
-                    Console.WriteLine("Your task delete");
-                   
+                    toDos.Remove(toDos[i]);
                     break;
                 }
             }
-        }
-        public void done(int id, bool taskStatus)
-        {
-            reader();
-
-            for (int i = 0; i < todoListWrite.Count; i++)
+            for (int i = 0; i < toDos.Count; i++)
             {
-                if (todoListWrite[i].Id == id)
+                toDos[i].Id = i+1;
+            }
+            WriteSerializeTaskToDb(toDos);
+            Console.WriteLine("Your task delete");
+        }
+        public void EditingTaskStatus(int id, bool taskStatus)
+        {
+            List<ToDoModel> toDos = DeserializeTaskInDb();
+
+            for (int i = 0; i < toDos.Count; i++)
+            {
+                if (toDos[i].Id == id)
                 {
-                    todoListWrite[i].TaskStatus = taskStatus;
-
-                    writeSerialize();
-
-                    Console.WriteLine("Your task done");
-
+                    toDos[i].TaskStatus = taskStatus;
+                    WriteSerializeTaskToDb(toDos);
                     break;
                 }
             }
+            Console.WriteLine("Your task done");
         }
-        public void uppdate(int id, string task, bool taskStatus, DateTime date)
+        public void UppdateTaskInDb(int id, string task, bool taskStatus, DateTime date)
         {
-            reader();
+            List<ToDoModel> toDos = DeserializeTaskInDb();
 
-            for (int i = 0; i < todoListWrite.Count; i++)
+            for (int i = 0; i < toDos.Count; i++)
             {
-                if (todoListWrite[i].Id == id)
+                if (toDos[i].Id == id)
                 {
-                    todoListWrite[i] = new ToDoModel(id, task, taskStatus, date);
-                    writeSerialize();
-                    Console.WriteLine("Your task uppdate");
+                    toDos[i] = new ToDoModel(id, task, taskStatus, date);
+                    WriteSerializeTaskToDb(toDos);
                     break;
                 }
             }
+            Console.WriteLine("Your task uppdate");
         }
-        public void vcurrent()
-        {
-            reader(); 
-
-            for (int i = 0; i < todoListWrite.Count; i++)
-            {
-                if (todoListWrite[i].Datetime == DateTime.Now.Date)
-                {
-                    writeTask(i);
-                }
-            }
-        }
-        public void vplanned()
-        {
-            reader();
-
-            for (int i = 0; i < todoListWrite.Count; i++)
-            {
-                if (todoListWrite[i].Datetime > DateTime.Now.Date)
-                {
-                    writeTask(i);
-                }
-            }
-        }
-        public void vcompleted()
-        {
-            reader();
-
-            for (int i = 0; i < todoListWrite.Count; i++)
-            {
-                if (todoListWrite[i].TaskStatus)
-                {
-                    writeTask(i);
-                }
-            }
-        }
-        public void all()
-        {
-            reader();
-            for (int i = 0; i < todoListWrite.Count; i++)
-            {
-                writeTask(i);
-            }
-           
-        }
+       
+       
     }
 }

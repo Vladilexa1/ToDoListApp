@@ -7,35 +7,34 @@ namespace ToDoListApp
 {
     class Program
     {
+        private static string startingGreeting = "Hello, it's my ToDoApp, write '-help', to see command";
+       
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello, it's my ToDoApp, write '-help', to see command");
-
-            DictionaryCommand DCommand = new DictionaryCommand(); // slovar comand
+            DictionaryCommand DCommand = new DictionaryCommand(); 
             
-            
-             
-            
-            
-            
+            Console.WriteLine(startingGreeting);
+           
             while (true) 
             {
-                
-                string input = Console.ReadLine(); // получаем какую либо команду для ToDo
+                string input = Input.InputStringInConsole(); 
                
                 if (input == "q") 
                 {
                     break;
                 } 
-              
-                CommandSpliter commandSpliter = new CommandSpliter(input); // spliter dlya command and action
+               
+                CommandSpliter commandSpliter = new CommandSpliter(input); 
 
                 try
-                {
-                    string command = commandSpliter.command();
+                { 
+                    string stringCommand = commandSpliter.GetSplitCommand();
 
-                    CommandLogger commandLogger = new CommandLogger(DCommand.SetCommand(command), commandSpliter.action());
+                    string command = DCommand.GetCommand(stringCommand);
+
+                    string[] acttion = commandSpliter.GetArrayAction();
                     
+                    CommandLogger commandLogger = new CommandLogger(command, acttion);
                 }
                 catch (Exception)
                 {
