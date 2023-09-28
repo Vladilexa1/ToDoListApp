@@ -14,15 +14,15 @@ namespace ToDoListApp
             return command[setCommand];
         }
 
-        private static string help = Alias.help;
-        private static string add = Alias.add;
-        private static string delete = Alias.delete;
-        private static string done = Alias.done;
-        private static string uppdate = Alias.uppdate;
-        private static string vievCurrent = Alias.vievCurrent;
-        private static string vievPlanned = Alias.vievPlanned;
-        private static string vievCompleted = Alias.vievCompleted;
-        private static string all = Alias.all;            
+        private static string help = "-help";
+        private static string add = "-add";
+        private static string delete = "-delete";
+        private static string done = "-done";
+        private static string uppdate = "-update";
+        private static string vievCurrent = "-vcurrent";
+        private static string vievPlanned = "-vplanned";
+        private static string vievCompleted = "-vcompleted";
+        private static string all = "-all";            
 
         private Dictionary<string, string> command = new Dictionary<string, string>()
         {
@@ -30,7 +30,7 @@ namespace ToDoListApp
             {add, "-add"},
             {delete, "-delete"},
             {done, "-done"},
-            {uppdate, "-uppdate"},
+            {uppdate, "-update"},
             {vievCurrent, "-vcurrent"},
             {vievPlanned,"-vplanned"},
             {vievCompleted,"-vcompleted"},

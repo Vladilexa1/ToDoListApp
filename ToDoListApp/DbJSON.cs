@@ -2,12 +2,12 @@
 
 namespace ToDoListApp
 {
-    public class Db
+    public class DbJSON
     {
         const string FILENAME = "DbJSON.json";
         private string json;
 
-        public Db()
+        public DbJSON()
         {
             CreateDbJSONFile();
         }
